@@ -126,41 +126,41 @@ def model_voor_augmentatie(train, validatie, class_names):
         ]
     )
 
-    train_acc = history.history['accuracy']
-    val_acc = history.history['val_accuracy']
-    train_loss = history.history['loss']
-    val_loss = history.history['val_loss']
+    t_acc = history.history['accuracy']
+    v_acc = history.history['val_accuracy']
+    t_loss = history.history['loss']
+    v_loss = history.history['val_loss']
     epochs_range = range(epochs)
 
     model_voor_augmentatie.save(r"C:\\Users\\eahni\\"
                                 r"Image-Analysis-Cartoon-Classifier\\"
                                 r"model_voor_augmentatie")
 
-    return train_acc, val_acc, train_loss, val_loss, epochs_range, \
-           data_augmentation
+    return t_acc, v_acc, t_loss, v_loss, epochs_range, data_augmentation
 
 
-def figure_model(train_acc, val_acc, train_loss, val_loss,
-                 epochs_range):
+def figure_model(t_acc, v_acc, t_loss, v_loss, epochs_range):
     """
 
     :param epochs_range:
-    :param train_acc:
-    :param val_acc:
+    :param t_acc:
+    :param v_acc:
+    :param t_loss:
+    :param v_loss:
     :return:
     """
     plt.figure(figsize=(8, 8))
     plt.subplot(1, 2, 1)
-    plt.plot(epochs_range, train_acc, label='Training Accuracy')
-    plt.plot(epochs_range, val_acc, label='Validatie Accuracy')
+    plt.plot(epochs_range, t_acc, label='Training Accuracy')
+    plt.plot(epochs_range, v_acc, label='Validatie Accuracy')
     plt.legend(loc='lower right')
     plt.title('Training en Validatie Accuracy')
     plt.xlabel("Aantal epochs")
     plt.ylabel("Accuracy")
 
     plt.subplot(1, 2, 2)
-    plt.plot(epochs_range, train_loss, label='Training Loss')
-    plt.plot(epochs_range, val_loss, label='Validatie Loss')
+    plt.plot(epochs_range, t_loss, label='Training Loss')
+    plt.plot(epochs_range, v_loss, label='Validatie Loss')
     plt.legend(loc='upper right')
     plt.title('Training en Validatie Loss')
     plt.xlabel("Aantal epochs")
@@ -172,6 +172,6 @@ if __name__ == '__main__':
     train, validatie, class_names = datasets()
     visualisatie_images(train, class_names)
     train, validatie = autotune(train, validatie)
-    train_acc, val_acc, train_loss, val_loss, epochs_range, data_augmentation = model_voor_augmentatie(
-        train, validatie, class_names)
-    figure_model(train_acc, val_acc, train_loss, val_loss, epochs_range)
+    t_acc, v_acc, t_loss, v_loss, epochs_range, data_augmentation = \
+        model_voor_augmentatie(train, validatie, class_names)
+    figure_model(t_acc, v_acc, t_loss, v_loss, epochs_range)
