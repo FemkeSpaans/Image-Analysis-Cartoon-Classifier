@@ -1,3 +1,6 @@
+""" Create an image classifier for cartoon images.
+
+"""
 import matplotlib.pyplot as plt
 import numpy as np
 import PIL
@@ -9,43 +12,60 @@ from tensorflow.keras.models import Sequential
 
 
 def datasets():
-    """ De functie laad train en validatie set in en welke class namen
-    er zijn.
+    """ Opens files and puts them into datasets.
 
-    :return train: specificatie van data
-    :return validatie: specificatie van data
-    :return class_names: welke class namen er zijn
+    Sets three parameters for the images, which will be used in the datasets;
+    batch_size, img_height, and img_width. The batch size is a number of
+    samples which are processed before the model is updated, and moves on to
+    the next batch. Image height and image width are used to resize the images,
+    so all the images are the same size.
+
+    Saves the paths to two separate directories, which contain the training
+    data and the validation data.
+
+    Generates two separate datasets from the files in the directories which
+    were saved in the paths; train and validation. Uses the earlier specified
+    parameters for batch size, image height, and image width.
+
+    Retrieves the class names from the training dataset. Class names correspond
+    to the name of the directory.
+    Class names = bean, conan, doraemon, naruto, shinchan.
+
+    :return train: training dataset.
+    :return validatie: validation dataset.
+    :return class_names: class names of the directories from the train data.
     """
-    # Setting van images
+
+    # Parameters for the images.
     batch_size = 32
     img_height = 96
     img_width = 96
 
-    # Path naar train data
+    # Path to the training data.
     data_dir_train = pathlib.Path(
         r"C:\\Users\\eahni\\Image-Analysis-Cartoon-Classifier\\"
         r"cartoon_backup\\data\\train")
 
-    # Path naar validatie data
+    # Path to the validation data.
     data_dir_validatie = pathlib.Path(
         r"C:\\Users\\eahni\\Image-Analysis-Cartoon-Classifier\\"
         r"cartoon_backup\\data\\validation")
 
-    # Batch specificatie maken van train dataset
+    # Generates a dataset from the files.
     train = tf.keras.utils.image_dataset_from_directory(
         data_dir_train,
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size)
 
-    # Batch specificatie maken van validatie dataset
+    # Generates a dataset from the files.
     validatie = tf.keras.utils.image_dataset_from_directory(
         data_dir_validatie,
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size)
 
-    # Alle class namen verkrijgen
+    # Class names which correspond to the name of the directory.
     class_names = train.class_names
 
     return train, validatie, class_names
