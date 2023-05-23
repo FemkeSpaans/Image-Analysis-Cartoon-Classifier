@@ -105,7 +105,9 @@ def model_voor_augmentatie(train, validatie, class_names):
     ])
 
     model_voor_augmentatie.compile(optimizer='adam',
-                                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                                   loss=tf.keras.losses.
+                                   SparseCategoricalCrossentropy
+                                   (from_logits=True),
                                    metrics=['accuracy'])
     model_voor_augmentatie.summary()
 
@@ -217,7 +219,8 @@ def model_aug(data_aug, class_names, trainset, validatieset):
         epochs=epochs
     )
 
-    model.save(r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\model_na_augmentatie")
+    model.save(r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\
+    model_na_augmentatie")
 
     return history, epochs
 
