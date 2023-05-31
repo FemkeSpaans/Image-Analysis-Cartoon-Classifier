@@ -4,29 +4,29 @@ The data is separate into three directories; test, train, and
 validation. In each of these directories are five directories; bean,
 conan, doraemon,naruto, and shinchan. In these directories are image
 files of the
-cartoon.In total there are 2469 images files, they are divided as
+cartoon.In total there are 2468 images files, they are divided as
 follows:
 
-test directory ( 26 image files, 1.1% of the entire data):
-- bean = 6 image files.
-- conan = 5 image files.
-- doraemon = 5 image files.
-- naruto = 5 image files.
-- shinchan = 5 image files
+test directory (26 image files, 10% of the entire data):
+- bean = 49 image files.
+- conan = 50 image files.
+- doraemon = 49 image files.
+- naruto = 48 image files.
+- shinchan = 51 image files
 
-train directory ( 2102 image files, 85.2% of the entire data):
-- bean = 321 image files.
-- conan = 525 image files.
-- doraemon = 508 image files.
-- naruto = 227 image files.
-- shinchan = 521 image files
+train directory (1974 image files, 80% of the entire data):
+- bean = 296 image files.
+- conan = 499 image files.
+- doraemon = 482 image files.
+- naruto = 202 image files.
+- shinchan = 495 image files
 
-validation directory (340 image files, 13.8% of the entire data):
-- bean = 45 image files.
-- conan = 88 image files.
-- doraemon = 72 image files.
-- naruto = 33 image files.
-- shinchan = 102 image files
+validation directory (247 image files, 10% of the entire data):
+- bean = 27 image files.
+- conan = 69 image files.
+- doraemon = 54 image files.
+- naruto = 15 image files.
+- shinchan = 82 image files
 """
 
 import matplotlib.pyplot as plt
