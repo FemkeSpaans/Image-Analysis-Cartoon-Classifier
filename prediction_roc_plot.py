@@ -1,16 +1,8 @@
 import os
-import matplotlib.pyplot as plt
-import numpy as np
-import PIL
 import tensorflow as tf
 import pathlib
 
 from sklearn.metrics import roc_auc_score
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import Sequential
-import h5py
-import sklearn.metrics as metrics
 from sklearn.preprocessing import label_binarize
 
 
