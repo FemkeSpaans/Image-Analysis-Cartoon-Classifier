@@ -1,9 +1,11 @@
 """ Create an image classifier for cartoon images.
 
-The data is separate into three directories; test, train, and validation.
-In each of these directories are five directories; bean, conan, doraemon,
-naruto, and shinchan. In these directories are image files of the cartoon. In
-total there are 2469 images files, they are divided as follows:
+The data is separate into three directories; test, train, and
+validation. In each of these directories are five directories; bean,
+conan, doraemon,naruto, and shinchan. In these directories are image
+files of the
+cartoon.In total there are 2469 images files, they are divided as
+follows:
 
 test directory ( 26 image files, 1.1% of the entire data):
 - bean = 6 image files.
@@ -40,26 +42,28 @@ from tensorflow.keras.models import Sequential
 def datasets():
     """ Opens files and puts them into datasets.
 
-    Sets three parameters for the images, which will be used in the datasets;
-    batch_size, img_height, and img_width. The batch size is a number of
-    samples which are processed before the model is updated, and moves on to
-    the next batch. Image height and image width are used to resize the images,
-    so all the images are the same size.
+    Sets three parameters for the images, which will be used in the
+    datasets; batch_size, img_height, and img_width. The batch size is a
+    number of samples which are processed before the model is updated,
+    and moves on to the next batch. Image height and image width are
+    used to resize the images, so all the images are the same size.
 
-    Saves the paths to two separate directories, which contain the training
-    data and the validation data.
+    Saves the paths to two separate directories, which contain the
+    training data and the validation data.
 
-    Generates two separate datasets from the files in the directories which
-    were saved in the paths; train and validation. Uses the earlier specified
-    parameters for batch size, image height, and image width.
+    Generates two separate datasets from the files in the directories
+    which were saved in the paths; train and validation. Uses the
+    earlier specified parameters for batch size, image height, and
+    image width.
 
-    Retrieves the class names from the training dataset. Class names correspond
-    to the name of the directory.
+    Retrieves the class names from the training dataset. Class names
+    correspond to the name of the directory.
     Class names = bean, conan, doraemon, naruto, shinchan.
 
     :return train: train dataset.
     :return validatie: validation dataset.
-    :return class_names: class names of the directories from the train data.
+    :return class_names: class names of the directories from the train
+    data.
     """
 
     # Parameters for the images.
@@ -102,12 +106,14 @@ def visualisatie_images(train, class_names):
 
     Sets the sizes of the images to a height and width of 10.
 
-    Uses a for loop to loop over the first 9 images in the training dataset.
-    Then shows these images with the label of which class they belong to.
+    Uses a for loop to loop over the first 9 images in the training
+    dataset. Then shows these images with the label of which class they
+    belong to.
 
 
     :param train: train dataset.
-    :param class_names: class names of the directories from the train data.
+    :param class_names: class names of the directories from the train
+    data.
     """
     plt.figure(figsize=(10, 10))
     for images, labels in train.take(1):
@@ -123,17 +129,17 @@ def autotune(train, validatie):
     """Optimizing the performance of the datasets.
 
     Autotune sets tf.data.AUTOTUNE, this prompts the tf.data runtime to
-    tune the value dynamically at runtime. Whilst the model is executing the
-    training step, the input pipeline is reading the data for the next training
-    step. This will reduce the step time of the training and the time it takes
-    to extract the data.
+    tune the value dynamically at runtime. Whilst the model is executing
+    the training step, the input pipeline is reading the data for the
+    next training step. This will reduce the step time of the training
+    and the time it takes to extract the data.
 
-    Next on both the training and the validation dataset it uses .cache()
-    and .prefetch(). cache() stores the images in memory after they have been
-    loaded off the disk during the first epoch. By loading the images in
-    memory they do not have to be loaded every new epoch, reducing the runtime.
-    prefetch() will load the next batch whilst the model is executing the
-    training step of the previous batch.
+    Next on both the training and the validation dataset it uses.cache()
+    and .prefetch(). cache() stores the images in memory after they have
+    been loaded off the disk during the first epoch. By loading the
+    images in memory they do not have to be loaded every new epoch,
+    reducing the runtime. prefetch() will load the next batch whilst
+    the model is executing the training step of the previous batch.
 
     :param train: train dataset.
     :param validatie: validation dataset.
@@ -153,45 +159,51 @@ def autotune(train, validatie):
 def model_voor_augmentatie(train, validatie, class_names):
     """Creates a model.
 
-    Sets two parameters for the images, which will be used in the datasets;
-    img_height and img_width. Image height and image width are used to resize
-    the images, so all the images are the same size. Sets a parameter for the
-    number of epochs. An epoch refers to one cycle through the full training
-    dataset. Counts the number of class names.
+    Sets two parameters for the images, which will be used in the
+    datasets; img_height and img_width. Image height and image width are
+    used to resize the images, so all the images are the same size. Sets
+    a parameter for the number of epochs. An epoch refers to one cycle
+    through the full training dataset. Counts the number of class names.
 
-    A Sequential model builds every layer sequentially, each layer has exactly
-    one input tensor and one output tensor. The data goes through every layer
-    from top to bottom until the data has reached the end of the model. The
-    layers in the model are; Rescaling, Conv2D, MaxPooling2D, Flatten,
-    and Dense. The Rescaling layer is a preprocessing layer which rescales the
-    input values to a new range. The Conv2D layer is a 2D convolution layer,
-    it performs spatial convolution over the images. It takes a part of the
-    image and compares them to neighboring parts. The MaxPooling2D layer down
-    samples the output from the previous layer without losing the important
-    features. The Flatten layer puts the input matrix from the previous layer
-    and puts it into a single array, hereby flatting the input. The Dense layer
-    is deeply connected with the previous layer, meaning each neuron in the
-    dense layer receives input from all the neurons of the previous layer.
+    A Sequential model builds every layer sequentially, each layer has
+    exactly one input tensor and one output tensor. The data goes
+    through every layer from top to bottom until the data has reached
+    the end of the model. The layers in the model are; Rescaling,
+    Conv2D, MaxPooling2D, Flatten, and Dense. The Rescaling layer is a
+    preprocessing layer which rescales the input values to a new range.
+    The Conv2D layer is a 2D convolution layer, it performs spatial
+    convolution over the images. It takes a part of the image and
+    compares them to neighboring parts. The MaxPooling2D layer down
+    samples the output from the previous layer without losing the
+    important features. The Flatten layer puts the input matrix from the
+    previous layer and puts it into a single array, hereby flatting the
+    input. The Dense layer is deeply connected with the previous layer,
+    meaning each neuron in the dense layer receives input from all the
+    neurons of the previous layer.
 
-    After the model is build it is compiled before the training starts. During
-    compilation, it checks for format errors, defines the loss function,
-    learning rate, and other metrics. Next a summary of the model is given.
+    After the model is build it is compiled before the training starts.
+    During compilation, it checks for format errors, defines the loss
+    function, learning rate, and other metrics. Next a summary of the
+    model is given.
 
     After the previous steps are done the training of the model begins.
-    The parameters for the training accuracy, validation accuracy, training
-    loss, and validation loss are saved. Lastly the model is saved.
+    The parameters for the training accuracy, validation accuracy,
+    training loss, and validation loss are saved. Lastly the model is
+    saved.
 
-    To reduce the change of overfitting data augmentation is done with the
-    model after the training has taken place. Data augmentation consists of
-    three preprocessing layers; RandomFlip, RandomRotation, and RandomZoom.
-    RandomFlip randomly flips the images during the training. RandomRotation
-    randomly rotates images during the training. RandomZoom randomly zooms in
-    on the images during the training. This steps is done during this function
+    To reduce the change of overfitting data augmentation is done with
+    the model after the training has taken place. Data augmentation
+    consists of three preprocessing layers; RandomFlip, RandomRotation,
+    and RandomZoom. RandomFlip randomly flips the images during the
+    training. RandomRotation randomly rotates images during the
+    training. RandomZoom randomly zooms in on the images during the
+    training. This steps is done during this function
     because it needs the model which is created during this function.
 
     :param train: train dataset.
     :param validatie: validation dataset.
-    :param class_names: class names of the directories from the train data.
+    :param class_names: class names of the directories from the train
+    data.
     :return t_acc: training accuracy.
     :return v_acc: validation accuracy.
     :return t_loss: training loss.
@@ -244,7 +256,8 @@ def model_voor_augmentatie(train, validatie, class_names):
             layers.RandomZoom(0.1),
         ]
     )
-    # Saving the parameters of the train and validation sets for visualisation.
+    # Saving the parameters of the train and validation sets for
+    # visualisation.
     t_acc = history.history['accuracy']
     v_acc = history.history['val_accuracy']
     t_loss = history.history['loss']
@@ -261,8 +274,8 @@ def model_voor_augmentatie(train, validatie, class_names):
 def figure_model(t_acc, v_acc, t_loss, v_loss, epochs_range):
     """Create figures of the accuracy and loss.
 
-    Creates two figures, on of the training and validation accuracy, and one
-    of the training and validation loss.
+    Creates two figures, on of the training and validation accuracy, and
+    one of the training and validation loss.
 
     :param epochs_range: range of the epochs.
     :param t_acc: training accuracy.
