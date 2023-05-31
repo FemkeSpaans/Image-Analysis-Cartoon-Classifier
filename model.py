@@ -369,8 +369,8 @@ def model_aug(data_aug, class_names, trainset, validatieset):
         epochs=epochs
     )
 
-    model.save(r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\
-    model_na_augmentatie")
+    model.save(r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\m"
+               r"odel_na_augmentatie")
 
     return history, epochs
 
