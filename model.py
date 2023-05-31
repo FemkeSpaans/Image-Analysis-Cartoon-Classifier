@@ -7,7 +7,7 @@ files of the
 cartoon.In total there are 2468 images files, they are divided as
 follows:
 
-test directory (26 image files, 10% of the entire data):
+test directory (247 image files, 10% of the entire data):
 - bean = 49 image files.
 - conan = 50 image files.
 - doraemon = 49 image files.
