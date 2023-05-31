@@ -209,7 +209,7 @@ def model_voor_augmentatie(train, validatie, class_names):
     :return t_loss: training loss.
     :return v_loss: validation loss.
     :return epochs_range: range of the epochs.
-    :return data_aug:
+    :return data_aug: data after data augmentation.
     """
 
     # Parameters for the images.
@@ -318,15 +318,19 @@ def figure_model(t_acc, v_acc, t_loss, v_loss, epochs_range):
     plt.show()
 
 
-def augmentation_figure(trainset, data_aug):
-    """
+def augmentation_figure(train, data_aug):
+    """Creates figures of the data after augmentation.
 
-    :param trainset:
-    :param data_aug:
-    :return:
+    Creates a figure with 9 images from the train dataset and shows these.
+
+    :param train: train dataset.
+    :param data_aug: data after data augmentation.
     """
+    # Set size for the figures.
     plt.figure(figsize=(10, 10))
-    for images, _ in trainset.take(1):
+    # Loops over the training set.
+    for images, _ in train.take(1):
+        # Picks 9 images.
         for i in range(9):
             augmented_images = data_aug(images)
             ax = plt.subplot(3, 3, i + 1)
@@ -337,7 +341,12 @@ def augmentation_figure(trainset, data_aug):
 def model_aug(data_aug, class_names, trainset, validatieset):
     """
 
-    :return:
+    :param data_aug:
+    :param class_names:
+    :param trainset:
+    :param validatieset:
+    :return history:
+    :return epochs:
     """
     num_classes = len(class_names)
     model = Sequential([
