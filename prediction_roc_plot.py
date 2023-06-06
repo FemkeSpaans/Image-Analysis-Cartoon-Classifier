@@ -10,7 +10,11 @@ from sklearn.preprocessing import label_binarize
 
 
 def prediction_model():
-    """ Creërt ROC plot, laad gemaakte model in en berekent per class
+    """ Creates a ROC plot.
+
+    Opens the saved model. Sets parameters for the height and width for the
+    images.
+    Creërt ROC plot, laad gemaakte model in en berekent per class
     true positive rate en false positive rate. Geeft een ROC plot
     terug.
 
@@ -27,15 +31,26 @@ def prediction_model():
     img_height = 96
     img_width = 96
 
-    # Creates a list with the names of all the images in a given directory.
+    # os.listdir() method in python is used to get the list of all files
+    # and directories in the specified directory. If we don’t specify any
+    # directory, then list of files and directories in the current working
+    # directory will be returned.
+
+    # Creates a list with the names of all the images in the bean directory.
     bean = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classi"
                       r"fier\cartoon_backup\data\test\bean")
+    # Creates a list with the names of all the images in the conan directory.
     conan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classif"
                        r"ier\cartoon_backup\data\test\conan")
+    # Creates a list with the names of all the images in the doraemon
+    # directory.
     doraemon = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
                           r"ifier\cartoon_backup\data\test\doraemon")
+    # Creates a list with the names of all the images in the naruto directory.
     naruto = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classif"
                         r"ier\cartoon_backup\data\test\naruto")
+    # Creates a list with the names of all the images in the shinchan
+    # directory.
     shinchan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
                           r"ifier\cartoon_backup\data\test\shinchan")
 
