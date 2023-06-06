@@ -61,7 +61,7 @@ def datasets():
     Class names = bean, conan, doraemon, naruto, shinchan.
 
     :return train: train dataset.
-    :return validatie: validation dataset.
+    :return validation: validation dataset.
     :return class_names: class names of the directories from the train
     data.
     """
@@ -77,7 +77,7 @@ def datasets():
         r"cartoon_backup\\data\\train")
 
     # Path to the validation data.
-    data_dir_validatie = pathlib.Path(
+    data_dir_validation = pathlib.Path(
         r"C:\\Users\\eahni\\Image-Analysis-Cartoon-Classifier\\"
         r"cartoon_backup\\data\\validation")
 
@@ -89,8 +89,8 @@ def datasets():
         batch_size=batch_size)
 
     # Generates a dataset from the files.
-    validatie = tf.keras.utils.image_dataset_from_directory(
-        data_dir_validatie,
+    validation = tf.keras.utils.image_dataset_from_directory(
+        data_dir_validation,
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size)
@@ -98,10 +98,10 @@ def datasets():
     # Class names which correspond to the name of the directory.
     class_names = train.class_names
 
-    return train, validatie, class_names
+    return train, validation, class_names
 
 
-def visualisatie_images(train, class_names):
+def visualisation_images(train, class_names):
     """Shows images from the training dataset.
 
     Sets the sizes of the images to a height and width of 10.
@@ -125,7 +125,7 @@ def visualisatie_images(train, class_names):
         plt.show()
 
 
-def autotune(train, validatie):
+def autotune(train, validation):
     """Optimizing the performance of the datasets.
 
     Autotune sets tf.data.AUTOTUNE, this prompts the tf.data runtime to
@@ -150,13 +150,13 @@ def autotune(train, validatie):
 
     autotune_train = train.cache().shuffle(1000).prefetch(
         buffer_size=AUTOTUNE)
-    autotune_validatie = validatie.cache().prefetch(
+    autotune_validatie = validation.cache().prefetch(
         buffer_size=AUTOTUNE)
 
     return autotune_train, autotune_validatie
 
 
-def model_voor_augmentatie(train, validatie, class_names):
+def model_before_augmentation(train, validation, class_names):
     """Creates a model.
 
     Sets two parameters for the images, which will be used in the
@@ -215,9 +215,9 @@ def model_voor_augmentatie(train, validatie, class_names):
     # Parameters for the images.
     img_height = 96
     img_width = 96
-    # Parameter for number of epochs.
+    # Parameter for number of epochs (iterations).
     epochs = 10
-    # Counts the number of class names
+    # Counts the number of class names.
     num_classes = len(class_names)
     # Create model.
     model_voor_augmentatie = Sequential([
@@ -239,12 +239,12 @@ def model_voor_augmentatie(train, validatie, class_names):
                                    SparseCategoricalCrossentropy
                                    (from_logits=True),
                                    metrics=['accuracy'])
-    # Summary of the model
+    # Summary of the model.
     model_voor_augmentatie.summary()
     # Training of the model.
     history = model_voor_augmentatie.fit(
         train,
-        validation_data=validatie,
+        validation_data=validation,
         epochs=epochs
     )
     # Data augmentation.
@@ -338,17 +338,47 @@ def augmentation_figure(train, data_aug):
             plt.axis("off")
 
 
-def model_aug(data_aug, class_names, trainset, validatieset):
+def model_aug(data_aug, class_names, train, validation):
+    """Creates a model with the augmented data.
+
+    A Sequential model builds every layer sequentially, each layer has
+    exactly one input tensor and one output tensor. The data goes
+    through every layer from top to bottom until the data has reached
+    the end of the model. The layers in the model are; Rescaling,
+    Conv2D, MaxPooling2D, Flatten, and Dense. The Rescaling layer is a
+    preprocessing layer which rescales the input values to a new range.
+    The Conv2D layer is a 2D convolution layer, it performs spatial
+    convolution over the images. It takes a part of the image and
+    compares them to neighboring parts. The MaxPooling2D layer down
+    samples the output from the previous layer without losing the
+    important features. The Flatten layer puts the input matrix from the
+    previous layer and puts it into a single array, hereby flatting the
+    input. The Dense layer is deeply connected with the previous layer,
+    meaning each neuron in the dense layer receives input from all the
+    neurons of the previous layer.
+
+    After the model is build it is compiled before the training starts.
+    During compilation, it checks for format errors, defines the loss
+    function, learning rate, and other metrics. Next a summary of the
+    model is given.
+
+    After the previous steps are done the training of the model begins.
+    The parameters for the training accuracy, validation accuracy,
+    training loss, and validation loss are saved. Lastly the model is
+    saved.
+
+    :param data_aug: data after data augmentation.
+    :param class_names: class names of the directories from the train
+    data.
+    :param train: train dataset.
+    :param validatie: validation dataset.
+    :return history: trained model.
+    :return epochs: Parameter for number of epochs (iterations).
     """
 
-    :param data_aug:
-    :param class_names:
-    :param trainset:
-    :param validatieset:
-    :return history:
-    :return epochs:
-    """
+    # Counts the number of class names.
     num_classes = len(class_names)
+    # Create model.
     model = Sequential([
         data_aug,
         layers.Rescaling(1. / 255),
@@ -363,21 +393,22 @@ def model_aug(data_aug, class_names, trainset, validatieset):
         layers.Dense(128, activation='relu'),
         layers.Dense(num_classes, name="outputs")
     ])
-
+    # Compile model.
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(
                       from_logits=True),
                   metrics=['accuracy'])
-
+    # Summary of model.
     model.summary()
-
+    # Parameter for number of epochs (iterations).
     epochs = 15
+    # Training of the model.
     history = model.fit(
-        trainset,
-        validation_data=validatieset,
+        train,
+        validation_data=validation,
         epochs=epochs
     )
-
+    # Save model.
     model.save(r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\
     model_na_augmentatie")
 
@@ -385,10 +416,13 @@ def model_aug(data_aug, class_names, trainset, validatieset):
 
 
 def figure_aug(history, epochs):
-    """
+    """Create figures of the accuracy and loss of the augmented data.
 
-    :param history:
-    :return:
+    Creates two figures, on of the training and validation accuracy, and
+    one of the training and validation loss of the augmented data.
+
+    :param history: trained model.
+    :param epochs: Parameter for number of epochs (iterations).
     """
     acc = history.history['accuracy']
     val_acc = history.history['val_accuracy']
@@ -397,33 +431,47 @@ def figure_aug(history, epochs):
     val_loss = history.history['val_loss']
 
     epochs_range = range(epochs)
-
+    # Set the size of the figure.
     plt.figure(figsize=(8, 8))
+    # Creates a figure and a grid of subplots.
     plt.subplot(1, 2, 1)
+    # Plots the training accuracy.
     plt.plot(epochs_range, acc, label='Training Accuracy')
+    # Plots the validation accuracy.
     plt.plot(epochs_range, val_acc, label='Validation Accuracy')
+    # Creates a legend.
     plt.legend(loc='lower right')
+    # Creates a title.
     plt.title('Training and Validation Accuracy')
-    plt.xlabel("Aantal epochs")
+    # Creates a label for the X axis.
+    plt.xlabel("Number of Epochs")
+    # Creates a label for the Y axis.
     plt.ylabel("Accuracy")
 
+    # Creates a figure and a grid of subplots.
     plt.subplot(1, 2, 2)
+    # Plots the training loss.
     plt.plot(epochs_range, loss, label='Training Loss')
+    # Plots the validation loss.
     plt.plot(epochs_range, val_loss, label='Validation Loss')
+    # Creates a legend.
     plt.legend(loc='upper right')
+    # Creates a title.
     plt.title('Training and Validation Loss')
-    plt.xlabel("Aantal epochs")
+    # Creates a label for the X axis.
+    plt.xlabel("Number of Epochs")
+    # Creates a label for the Y axis.
     plt.ylabel("Accuracy")
+    # Shows figures.
     plt.show()
 
-
 if __name__ == '__main__':
-    train, validatie, class_names = datasets()
-    visualisatie_images(train, class_names)
-    train, validatie = autotune(train, validatie)
+    train, validation, class_names = datasets()
+    visualisation_images(train, class_names)
+    train, validation = autotune(train, validation)
     t_acc, v_acc, t_loss, v_loss, epochs_range, data_aug = \
-        model_voor_augmentatie(train, validatie, class_names)
+        model_before_augmentation(train, validation, class_names)
     figure_model(t_acc, v_acc, t_loss, v_loss, epochs_range)
     augmentation_figure(train, data_aug)
-    history, epochs = model_aug(data_aug, class_names, train, validatie)
+    history, epochs = model_aug(data_aug, class_names, train, validation)
     figure_aug(history, epochs)
