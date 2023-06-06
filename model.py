@@ -419,15 +419,21 @@ def figure_aug(history, epochs):
     """Create figures of the accuracy and loss of the augmented data.
 
     Creates two figures, on of the training and validation accuracy, and
-    one of the training and validation loss of the augmented data.
+    one of the training and validation loss of the augmented data. This is
+    done using a history object. A history object is a record of the training
+    and validation loss values and metrics values at the successive epochs.
 
     :param history: trained model.
     :param epochs: Parameter for number of epochs (iterations).
     """
-    acc = history.history['accuracy']
-    val_acc = history.history['val_accuracy']
 
+    # History object of accuracy.
+    acc = history.history['accuracy']
+    # History object of validation accuracy.
+    val_acc = history.history['val_accuracy']
+    # History object of loss.
     loss = history.history['loss']
+    # History object of validation loss.
     val_loss = history.history['val_loss']
 
     epochs_range = range(epochs)
