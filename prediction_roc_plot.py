@@ -1,3 +1,6 @@
+"""Create an ROC for the image classifier model.
+
+"""
 import os
 import tensorflow as tf
 import pathlib
@@ -12,7 +15,7 @@ def prediction_model():
     terug.
 
     """
-    # Laad het gemaakte model in
+    # Loads the saved model.
     # model = tf.keras.models.load_model(
     #     r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\model_voo"
     #     r"r_augmentatie")
@@ -20,11 +23,11 @@ def prediction_model():
                                        r"-Cartoon-Classifier\model_na"
                                        r"_augmentatie")
 
-    # Zet de hoogte en breedte voor image
+    # Parameters for the images.
     img_height = 96
     img_width = 96
 
-    # Maak een lijst met alle namen van images in map
+    # Creates a list with the names of all the images in a given directory.
     bean = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classi"
                       r"fier\cartoon_backup\data\test\bean")
     conan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classif"
@@ -36,14 +39,14 @@ def prediction_model():
     shinchan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
                           r"ifier\cartoon_backup\data\test\shinchan")
 
-    # Maak 2 lege lijsten aan voor true positives en kansen
+    # Creates two empty lists. One for the true positives and one for the
+    # probabilities.
     y_true = []
     y_prob = []
 
-    # Voor alle images in de lijst worden images ingeladen en array's
-    # gemaakt. Vervolgens worden voorspellingen gedaan en score berekend
-    # Deze waardes worden toegevoegd aan de 2 lijsten, die worden
-    # gebruikt voor de plot.
+    # Loops over all the images in the list and puts them into arrays.
+    # Calculates predictions and scores, these are appended to y_true and
+    # y_prob respectively. die worden gebruikt voor de plot.
     for i in bean:
         data_dir_testen_bean = pathlib.Path(r"C:\\Users\\eahni\\"
                                             r"Image-Analysis-Cartoon-"
