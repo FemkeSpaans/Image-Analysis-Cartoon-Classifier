@@ -13,27 +13,28 @@ def prediction_model():
 
     """
     # Laad het gemaakte model in
-    model = tf.keras.models.load_model(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\model_voor_augmentatie")
+    # model = tf.keras.models.load_model(
+    #     r"C:\Users\eahni\Image-Analysis-Cartoon-Classifier\model_voo"
+    #     r"r_augmentatie")
+    model = tf.keras.models.load_model(r"C:\Users\eahni\Image-Analysis"
+                                       r"-Cartoon-Classifier\model_na"
+                                       r"_augmentatie")
 
     # Zet de hoogte en breedte voor image
     img_height = 96
     img_width = 96
 
     # Maak een lijst met alle namen van images in map
-    bean = os.listdir(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\cartoon_backup\data\test\bean")
-    conan = os.listdir(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\cartoon_backup\data\test\conan")
-    doraemon = os.listdir(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\cartoon_backup\data\test\
-    doraemon")
-    naruto = os.listdir(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\cartoon_backup\data\test\
-    naruto")
-    shinchan = os.listdir(r"C:\Users\eahni\
-    Image-Analysis-Cartoon-Classifier\cartoon_backup\data\test\
-    shinchan")
+    bean = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classi"
+                      r"fier\cartoon_backup\data\test\bean")
+    conan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classif"
+                       r"ier\cartoon_backup\data\test\conan")
+    doraemon = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
+                          r"ifier\cartoon_backup\data\test\doraemon")
+    naruto = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classif"
+                        r"ier\cartoon_backup\data\test\naruto")
+    shinchan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
+                          r"ifier\cartoon_backup\data\test\shinchan")
 
     # Maak 2 lege lijsten aan voor true positives en kansen
     y_true = []
