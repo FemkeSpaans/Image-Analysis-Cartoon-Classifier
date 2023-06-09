@@ -1,5 +1,6 @@
 """Create an ROC for the image classifier model.
 
+Uses the models created in model.py.
 """
 import os
 import tensorflow as tf
@@ -13,11 +14,11 @@ def prediction_model():
     """ Creates a ROC plot.
 
     Opens the saved model. Sets parameters for the height and width for the
-    images.
-    Creërt ROC plot, laad gemaakte model in en berekent per class
-    true positive rate en false positive rate. Geeft een ROC plot
-    terug.
-
+    images. Creates 5 lists of all the images. Creates 2 empty lists, one for
+    the true positives and one for the probabilities. Loops over all the
+    images in the list and puts them into arrays. Calculates predictions and
+    scores, these are appended to y_true and y_prob respectively. Lastly, it
+    calculates the AUC score.
     """
     # Loads the saved model.
     # model = tf.keras.models.load_model(
@@ -26,16 +27,9 @@ def prediction_model():
     model = tf.keras.models.load_model(r"C:\Users\eahni\Image-Analysis"
                                        r"-Cartoon-Classifier\model_na"
                                        r"_augmentatie")
-
     # Parameters for the images.
     img_height = 96
     img_width = 96
-
-    # os.listdir() method in python is used to get the list of all files
-    # and directories in the specified directory. If we don’t specify any
-    # directory, then list of files and directories in the current working
-    # directory will be returned.
-
     # Creates a list with the names of all the images in the bean directory.
     bean = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Classi"
                       r"fier\cartoon_backup\data\test\bean")
@@ -53,15 +47,12 @@ def prediction_model():
     # directory.
     shinchan = os.listdir(r"C:\Users\eahni\Image-Analysis-Cartoon-Class"
                           r"ifier\cartoon_backup\data\test\shinchan")
-
-    # Creates two empty lists. One for the true positives and one for the
-    # probabilities.
+    # Creates two empty lists.
     y_true = []
     y_prob = []
-
     # Loops over all the images in the list and puts them into arrays.
     # Calculates predictions and scores, these are appended to y_true and
-    # y_prob respectively. die worden gebruikt voor de plot.
+    # y_prob respectively. 
     for i in bean:
         data_dir_testen_bean = pathlib.Path(r"C:\\Users\\eahni\\"
                                             r"Image-Analysis-Cartoon-"
@@ -137,6 +128,7 @@ def prediction_model():
     y_true = label_binarize(y_true, classes=(0, 1, 2, 3, 4))
     print(y_prob)
     print(y_true)
+    # Calculate AUC.
     auc = roc_auc_score(y_true, y_prob, multi_class='ovr')
 
     print(auc)
